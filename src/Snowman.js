@@ -7,13 +7,14 @@ import img3 from "./3.png";
 import img4 from "./4.png";
 import img5 from "./5.png";
 import img6 from "./6.png";
+import {randomWord} from './words'
 
 function Snowman({maxWrong, images, words}) {
   /** by default, allow 6 guesses and use provided gallows images. */
 
   const [nWrong, updateNWrong] = useState(0);
   const [guessed, updateGuessed] = useState(new Set());
-  const [answer, updateAnswer] = useState(words[0]);
+  const [answer, updateAnswer] = useState(randomWord(words));
 
   /** guessedWord: show current-state of word:
     if guessed letters are {a,p,e}, show "app_e" for "apple"
@@ -53,13 +54,19 @@ function Snowman({maxWrong, images, words}) {
     ));
   }
 
+  function handleClick(){
+    updateAnswer(randomWord(words));
+    updateNWrong(0);
+    updateGuessed(new Set());
+  }
   /** render: render game */
   return (
     <div className="Snowman">
-      <img src={images[nWrong]} data-testid="snowmanImage"/>
+      <img src={images[nWrong]} data-testid="snowmanImage" alt = "snowman"/>
       <p>{ nWrong >= 6 ? "You lost! " : `Number of incorrect guesses: ${nWrong}` }</p>
       <p className="Snowman-word">{ nWrong >= 6 ? answer : guessedWord()}</p>
       <p>{ nWrong >= 6 ? "" : generateButtons() }</p>
+      <button onClick = {handleClick}> Restart</button>
     </div>
   );
 }

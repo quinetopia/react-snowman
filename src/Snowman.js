@@ -56,9 +56,10 @@ function Snowman({maxWrong, images, words}) {
   /** render: render game */
   return (
     <div className="Snowman">
-      <img src={images[nWrong]}/>
-      <p className="Snowman-word">{guessedWord()}</p>
-      <p>{generateButtons()}</p>
+      <img src={images[nWrong]} data-testid="snowmanImage"/>
+      <p>{ nWrong >= 6 ? "You lost! " : `Number of incorrect guesses: ${nWrong}` }</p>
+      <p className="Snowman-word">{ nWrong >= 6 ? answer : guessedWord()}</p>
+      <p>{ nWrong >= 6 ? "" : generateButtons() }</p>
     </div>
   );
 }
@@ -68,5 +69,6 @@ Snowman.defaultProps = {
   images: [img0, img1, img2, img3, img4, img5, img6],
   words: ["apple"]
 };
+
 
 export default Snowman;
